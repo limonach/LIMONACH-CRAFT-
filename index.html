@@ -1,0 +1,160 @@
+<!DOCTYPE html><html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لعبة إدارة الموارد</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #222;
+      color: #fff;
+      overflow: hidden;
+    }
+    .game-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+    }
+    .station {
+      display: flex;
+      justify-content: center;
+      margin: 10px;
+      gap: 10px;
+    }
+    .box {
+      width: 80px;
+      height: 80px;
+      background-color: #444;
+      border: 2px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .planting {
+      background-color: orange;
+    }
+    .chicken {
+      background-color: white;
+      color: black;
+    }
+    .cooking {
+      background-color: red;
+    }
+    .controls, .store {
+      margin: 10px;
+    }
+    button {
+      padding: 8px 16px;
+      margin: 5px;
+      font-size: 16px;
+    }
+    #store {
+      display: none;
+      background-color: #333;
+      padding: 10px;
+      border: 2px solid #fff;
+    }
+    #toggleStore {
+      font-size: 14px;
+      padding: 5px 10px;
+    }
+    .price {
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <div class="controls">
+      <div>💰 عملات: <span id="coins">100</span></div>
+      <button id="toggleStore">🛒 فتح المتجر</button>
+    </div><div class="station cooking">
+  <div class="box">🍗</div>
+  <div class="box">🍗</div>
+  <div class="box">🍗</div>
+</div>
+
+<div class="station chicken">
+  <div class="box">🐔</div>
+  <div class="box">🐔</div>
+  <div class="box">🐔</div>
+</div>
+
+<div class="station planting">
+  <div class="box">🌾</div>
+  <div class="box">🌾</div>
+  <div class="box">🌾</div>
+</div>
+
+<div class="store" id="store">
+  <h3>🛒 المتجر</h3>
+  <div>
+    <p>شراء القمح: <button onclick="buy('wheat')">10 💰</button> <span class="price" id="price-wheat"></span></p>
+    <p>شراء دجاج: <button onclick="buy('chicken')">25 💰</button> <span class="price" id="price-chicken"></span></p>
+    <p>شراء دجاج مطبوخ: <button onclick="buy('cooked')">50 💰</button> <span class="price" id="price-cooked"></span></p>
+    <hr>
+    <p>بيع القمح: <button onclick="sell('wheat')">6 💰</button></p>
+    <p>بيع دجاج: <button onclick="sell('chicken')">18 💰</button></p>
+    <p>بيع دجاج مطبوخ: <button onclick="sell('cooked')">38 💰</button></p>
+  </div>
+</div>
+
+  </div>  <script>
+    let coins = 100;
+    let prices = {
+      wheat: 10,
+      chicken: 25,
+      cooked: 50
+    };
+
+    const coinsSpan = document.getElementById('coins');
+    const storeDiv = document.getElementById('store');
+    const toggleStoreBtn = document.getElementById('toggleStore');
+
+    function updatePrices() {
+      document.getElementById('price-wheat').textContent = `(🔼/🔽 ${prices.wheat})`;
+      document.getElementById('price-chicken').textContent = `(🔼/🔽 ${prices.chicken})`;
+      document.getElementById('price-cooked').textContent = `(🔼/🔽 ${prices.cooked})`;
+    }
+
+    function buy(item) {
+      if (coins >= prices[item]) {
+        coins -= prices[item];
+        prices[item] += 0.2;
+        update();
+      } else {
+        alert("ليس لديك ما يكفي من العملات!");
+      }
+    }
+
+    function sell(item) {
+      let sellPrices = {
+        wheat: 6,
+        chicken: 18,
+        cooked: 38
+      };
+      coins += sellPrices[item];
+      prices[item] -= 0.1;
+      if (prices[item] < 1) prices[item] = 1;
+      update();
+    }
+
+    function update() {
+      coinsSpan.textContent = Math.floor(coins);
+      updatePrices();
+    }
+
+    toggleStoreBtn.addEventListener('click', () => {
+      storeDiv.style.display = storeDiv.style.display === 'none' ? 'block' : 'none';
+    });
+
+    update();
+  </script></body>
+</html>
