@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LIMONACH Mining</title>
+  
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6826025110758238"
+     crossorigin="anonymous"></script>
+
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -59,7 +64,7 @@
 
   <script>
     let language = 'en';
-    let miningTime = 0;
+    let miningTime = parseInt(localStorage.getItem('miningTime')) || 0;
 
     function updateText() {
       if (language === 'en') {
@@ -67,6 +72,7 @@
         document.getElementById("dev-note").textContent = "⚠️ This site is still under development";
         document.getElementById("mine-btn").textContent = "Mine Now";
         document.getElementById("mining-time").textContent = `Current Mining Time: ${miningTime}h`;
+        document.body.dir = "ltr";
       } else {
         document.body.dir = "rtl";
         document.getElementById("title").textContent = "تعدين LIMONACH";
@@ -86,9 +92,9 @@
         alert(language === 'en' ? "You reached the max (24h)!" : "لقد وصلت للحد الأقصى (24 ساعة)!");
         return;
       }
-      // Simulate watching ad
       alert(language === 'en' ? "Watching ad..." : "جارٍ مشاهدة إعلان...");
       miningTime = Math.min(miningTime + 4, 24);
+      localStorage.setItem('miningTime', miningTime);
       updateText();
     }
 
