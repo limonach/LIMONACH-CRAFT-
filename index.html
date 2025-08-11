@@ -2,84 +2,269 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>LIMONACH Mining</title>
-  
+
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6826025110758238"
-     crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #141e30, #243b55);
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #5c258d, #4389a2);
       color: white;
-      text-align: center;
-      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
       direction: ltr;
     }
+
     .container {
-      max-width: 500px;
-      margin: auto;
-      background: rgba(255,255,255,0.05);
-      padding: 20px;
-      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 25px;
+      max-width: 420px;
+      width: 90%;
+      margin-top: 40px;
+      padding: 30px 25px 40px 25px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      text-align: center;
+      position: relative;
     }
-    .lang-toggle {
+
+    .logo-wrapper {
+      margin-bottom: 25px;
+    }
+
+    .logo-wrapper img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 5px #d56cff);
+    }
+
+    #title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: 1.2px;
+    }
+
+    .wallet {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 20px;
+      right: 25px;
+      background: #5b2affcc;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 10px #ae6cffaa;
     }
-    button {
-      background: #00c853;
-      color: white;
-      padding: 10px 20px;
+
+    .wallet img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .time-remaining {
+      margin: 20px auto 30px auto;
+      padding: 15px 0;
+      border-radius: 30px;
+      width: 250px;
+      font-weight: 600;
       font-size: 18px;
-      border: none;
-      border-radius: 10px;
+      background: linear-gradient(90deg, #512da8, #d500f9);
+      box-shadow: 0 4px 12px #ae6cffcc;
+      color: white;
+    }
+
+    .buttons-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    .button-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 20px 0;
+      cursor: pointer;
+      box-shadow: 0 0 10px #7b44ff77;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+
+    .button-card:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .button-card img {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 3px #b159ff);
+    }
+
+    .button-card span {
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .lang-toggle {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background: #512da8cc;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      box-shadow: 0 0 12px #b159ffcc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      z-index: 100;
+    }
+
+    .lang-toggle:hover {
+      background: #7b44ffcc;
+    }
+
+    .lang-toggle button {
+      all: unset;
+      color: white;
+      font-size: 24px;
       cursor: pointer;
     }
-    button:hover {
-      background: #00e676;
+
+    #mine-btn {
+      background: linear-gradient(90deg, #5c258d, #d500f9);
+      border: none;
+      padding: 15px 45px;
+      border-radius: 35px;
+      font-weight: 700;
+      font-size: 20px;
+      color: white;
+      box-shadow: 0 8px 20px #ae6cffcc;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-bottom: 15px;
+      user-select: none;
     }
+
+    #mine-btn:hover {
+      background: linear-gradient(90deg, #7b44ff, #e040fb);
+    }
+
     .warning {
-      color: yellow;
-      font-weight: bold;
-      margin-bottom: 10px;
+      color: #f5e742;
+      font-weight: 600;
+      margin-bottom: 20px;
+      user-select: none;
+      text-shadow: 0 0 6px #f5e742aa;
+    }
+
+    #email-info {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #ddd;
+      user-select: none;
+      min-height: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 460px) {
+      .container {
+        width: 95%;
+        padding: 25px 20px 35px 20px;
+      }
+
+      .time-remaining {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="lang-toggle">
+  <div class="lang-toggle" title="Toggle Language">
     <button onclick="toggleLanguage()">🌐</button>
   </div>
 
   <div class="container">
+    <div class="wallet" title="Wallet Balance">
+      <img src="https://cdn-icons-png.flaticon.com/512/825/825454.png" alt="Coin" />
+      <span id="wallet-amount">10000</span>
+    </div>
+
+    <div class="logo-wrapper">
+      <img src="https://i.ibb.co/3dFgTFF/limonach-icon.png" alt="LIMONACH Logo" />
+    </div>
+
     <h1 id="title">LIMONACH Mining</h1>
+
     <p class="warning" id="dev-note">⚠️ This site is still under development</p>
-    <p id="mining-time">Current Mining Time: 0h</p>
-    <button onclick="startMining()" id="mine-btn">Mine Now</button>
+
+    <div class="time-remaining" id="time-remaining">
+      Remaining Time<br/><span id="remaining-seconds">--</span>
+    </div>
+
+    <div class="buttons-grid">
+      <div class="button-card" onclick="openLink('whitepaper')">
+        <img src="https://cdn-icons-png.flaticon.com/512/2913/2913686.png" alt="Whitepaper" />
+        <span>Whitepaper</span>
+      </div>
+      <div class="button-card" onclick="openLink('roadmap')">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149059.png" alt="Roadmap" />
+        <span>Roadmap</span>
+      </div>
+      <div class="button-card" onclick="openLink('smartcontract')">
+        <img src="https://cdn-icons-png.flaticon.com/512/1037/1037954.png" alt="Smart Contract" />
+        <span>Smart Contract</span>
+      </div>
+      <div class="button-card" onclick="openLink('telegram')">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" />
+        <span>Telegram</span>
+      </div>
+    </div>
+
+    <button id="mine-btn" onclick="startMining()">Mine Now</button>
     <p id="email-info"></p>
   </div>
 
   <script>
     let language = 'en';
     let miningTime = parseInt(localStorage.getItem('miningTime')) || 0;
+    let remainingTimeSec = 0;
 
     function updateText() {
       if (language === 'en') {
         document.getElementById("title").textContent = "LIMONACH Mining";
         document.getElementById("dev-note").textContent = "⚠️ This site is still under development";
         document.getElementById("mine-btn").textContent = "Mine Now";
-        document.getElementById("mining-time").textContent = `Current Mining Time: ${miningTime}h`;
         document.body.dir = "ltr";
       } else {
         document.body.dir = "rtl";
         document.getElementById("title").textContent = "تعدين LIMONACH";
         document.getElementById("dev-note").textContent = "⚠️ الموقع لا يزال في وضع التطوير";
         document.getElementById("mine-btn").textContent = "ابدأ التعدين";
-        document.getElementById("mining-time").textContent = `مدة التعدين الحالية: ${miningTime} ساعة`;
       }
+      updateRemainingTimeDisplay();
     }
 
     function toggleLanguage() {
@@ -87,18 +272,74 @@
       updateText();
     }
 
+    function openLink(type) {
+      let urls = {
+        whitepaper: 'https://example.com/whitepaper.pdf',
+        roadmap: 'https://example.com/roadmap',
+        smartcontract: 'https://example.com/smartcontract',
+        telegram: 'https://t.me/examplechannel'
+      };
+      window.open(urls[type], '_blank');
+    }
+
+    function updateRemainingTimeDisplay() {
+      // Display remaining time as minutes + seconds if under 1 hour, else hours
+      if (remainingTimeSec > 0) {
+        if (remainingTimeSec >= 3600) {
+          let hours = Math.floor(remainingTimeSec / 3600);
+          document.getElementById('time-remaining').innerHTML = (language === 'en' ? 'Remaining Time: ' : 'الوقت المتبقي: ') + hours + (language === 'en' ? 'h' : ' ساعة');
+        } else {
+          let min = Math.floor(remainingTimeSec / 60);
+          let sec = remainingTimeSec % 60;
+          document.getElementById('time-remaining').innerHTML = `${language === 'en' ? 'Remaining Time' : 'الوقت المتبقي'}<br><span>${min} min ${sec} sec</span>`;
+        }
+      } else {
+        document.getElementById('time-remaining').textContent = language === 'en' ? 'Remaining Time: 0 min' : 'الوقت المتبقي: 0 دقيقة';
+      }
+    }
+
+    // Simulate mining countdown (optional)
+    let miningInterval = null;
     function startMining() {
       if (miningTime >= 24) {
         alert(language === 'en' ? "You reached the max (24h)!" : "لقد وصلت للحد الأقصى (24 ساعة)!");
         return;
       }
       alert(language === 'en' ? "Watching ad..." : "جارٍ مشاهدة إعلان...");
+
+      // Add 4 hours mining time max 24h
       miningTime = Math.min(miningTime + 4, 24);
       localStorage.setItem('miningTime', miningTime);
-      updateText();
+
+      // Convert hours to seconds for countdown display
+      remainingTimeSec = miningTime * 3600;
+      updateRemainingTimeDisplay();
+
+      // Clear any existing interval
+      if (miningInterval) clearInterval(miningInterval);
+
+      miningInterval = setInterval(() => {
+        if (remainingTimeSec <= 0) {
+          clearInterval(miningInterval);
+          remainingTimeSec = 0;
+          updateRemainingTimeDisplay();
+          return;
+        }
+        remainingTimeSec--;
+        updateRemainingTimeDisplay();
+      }, 1000);
     }
 
     updateText();
+
+    // Initialize wallet amount from localStorage or default 10000
+    let walletEl = document.getElementById('wallet-amount');
+    let storedWallet = localStorage.getItem('walletAmount');
+    if (storedWallet) {
+      walletEl.textContent = storedWallet;
+    } else {
+      localStorage.setItem('walletAmount', '10000');
+    }
   </script>
 </body>
 </html>
