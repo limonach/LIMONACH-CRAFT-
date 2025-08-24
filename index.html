@@ -1,43 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Project</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <!-- Navbar -->
-  <header>
-    <h1 id="title">Welcome to My Project</h1>
-    <nav>
-      <select id="languageSelect"></select>
-    </nav>
-  </header>
+document.addEventListener("DOMContentLoaded", () => {
 
-  <!-- Main content -->
-  <main>
-    <!-- About Project -->
-    <section id="about">
-      <h2 id="aboutTitle">About the Project</h2>
-      <p id="aboutText">This is a demo project where users can support an idea by interacting with ads.</p>
-    </section>
+  // قائمة اللغات الرسمية لكل الدول
+  const officialLanguages = [
+    { code: "ar", name: "Arabic" },
+    { code: "en", name: "English" },
+    { code: "fr", name: "French" },
+    { code: "es", name: "Spanish" },
+    { code: "zh", name: "Chinese" },
+    { code: "hi", name: "Hindi" },
+    { code: "ru", name: "Russian" },
+    { code: "pt", name: "Portuguese" },
+    { code: "de", name: "German" },
+    { code: "ja", name: "Japanese" },
+    { code: "ko", name: "Korean" },
+    { code: "it", name: "Italian" },
+    { code: "tr", name: "Turkish" },
+    { code: "vi", name: "Vietnamese" },
+    { code: "fa", name: "Persian" },
+    { code: "bn", name: "Bengali" },
+    { code: "id", name: "Indonesian" },
+    { code: "th", name: "Thai" },
+    { code: "nl", name: "Dutch" },
+    { code: "sv", name: "Swedish" }
+    // يمكن إضافة باقي اللغات الرسمية لاحقًا
+  ];
 
-    <!-- Advertisement Button -->
-    <section id="adSection">
-      <button id="adButton">Click here to view Ad</button>
-    </section>
-  </main>
+  // 1️⃣ ملء Dropdown باللغات
+  const langSelect = document.getElementById("languageSelect");
+  officialLanguages.sort((a,b) => a.name.localeCompare(b.name)).forEach(lang => {
+    const option = document.createElement("option");
+    option.value = lang.code;
+    option.textContent = lang.name;
+    langSelect.appendChild(option);
+  });
 
-  <!-- Ad Modal -->
-  <div id="adModal" class="modal">
-    <div class="modal-content">
-      <span id="closeAd">&times;</span>
-      <h3 id="adTitle">Advertisement</h3>
-      <p id="adText">This is where your advertisement will appear.</p>
-    </div>
-  </div>
+  // 2️⃣ النصوص المترجمة
+  const translations = {
+    en: {
+      title: "Welcome to My Project",
+      aboutTitle: "About the Project",
+      aboutText: "This is a demo project where users can support an idea by interacting with ads.",
+      adTitle: "Advertisement",
+      adText: "This is where your advertisement will appear.",
+      adButton: "Click here to view Ad"
+    },
+    ar: {
+      title: "مرحباً بكم في مشروعي",
+      aboutTitle: "حول المشروع",
+      aboutText: "هذا مشروع تجريبي حيث يمكن للمستخدمين دعم الفكرة من خلال مشاهدة الإعلانات.",
+      adTitle: "إعلان",
+      adText: "هنا سيظهر إعلانك.",
+      adButton: "إضغط هنا لمشاهدة الإعلان"
+    },
+    fr: {
+      title: "Bienvenue dans Mon Projet",
+      aboutTitle: "À propos du projet",
+      aboutText: "Ceci est un projet de démonstration où les utilisateurs peuvent soutenir une idée en regardant des publicités.",
+      adTitle: "Publicité",
+      adText: "C'est ici que votre annonce apparaîtra.",
+      adButton: "Cliquez ici pour voir l'annonce"
+    },
+    es: {
+      title: "Bienvenido a Mi Proyecto",
+      aboutTitle: "Sobre el Proyecto",
+      aboutText: "Este es un proyecto de demostración donde los usuarios pueden apoyar una idea viendo anuncios.",
+      adTitle: "Anuncio",
+      adText: "Aquí aparecerá tu anuncio.",
+      adButton: "Haz clic aquí para ver el anuncio"
+    }
+  };
 
-  <script src="script.js"></script>
-</body>
-</html>
+  const elements = {
+    title: document.getElementById("title"),
+    aboutTitle: document.getElementById("aboutTitle"),
+    aboutText: document.getElementById("aboutText"),
+    adTitle: document.getElementById("adTitle"),
+    adText: document.getElementById("adText"),
+    adButton: document.getElementById("adButton")
+  };
+
+  // 3️⃣ تغيير اللغة عند الاختيار
+  langSelect.addEventListener("change", () => {
+    const lang = langSelect.value;
+    const t = translations[lang] || translations["en"];
+    for (let key in elements) {
+      elements[key].textContent = t[key];
+    }
+  });
+
+  // 4️⃣ الإعلان (Modal)
+  const modal = document.getElementById("adModal");
+  const adButton = document.getElementById("adButton");
+  const closeAd = document.getElementById("closeAd");
+
+  adButton.addEventListener("click", () => {
+    modal.style.display = "block";
+  });
+
+  closeAd.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  window.onclick = (event) => {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+
+});
