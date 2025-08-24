@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // قائمة اللغات الرسمية لكل الدول (أهم ~195 لغة)
+  // Dropdown لجميع اللغات الرسمية (اسم فقط)
   const officialLanguages = [
     { code: "ar", name: "Arabic" },
     { code: "en", name: "English" },
@@ -10,31 +10,20 @@ document.addEventListener("DOMContentLoaded", () => {
     { code: "hi", name: "Hindi" },
     { code: "ru", name: "Russian" },
     { code: "pt", name: "Portuguese" },
-    { code: "de", name: "German" },
-    { code: "ja", name: "Japanese" },
-    { code: "ko", name: "Korean" },
-    { code: "it", name: "Italian" },
-    { code: "tr", name: "Turkish" },
-    { code: "vi", name: "Vietnamese" },
-    { code: "fa", name: "Persian" },
-    { code: "bn", name: "Bengali" },
-    { code: "id", name: "Indonesian" },
-    { code: "th", name: "Thai" },
-    { code: "nl", name: "Dutch" },
-    { code: "sv", name: "Swedish" },
-    // يمكن إضافة باقي اللغات الرسمية هنا
+    { code: "de", name: "German" }
+    // باقي اللغات يمكن إضافتها لاحقًا
   ];
 
   // تعبئة Dropdown
   const langSelect = document.getElementById("languageSelect");
-  officialLanguages.sort((a,b) => a.name.localeCompare(b.name)).forEach(lang => {
+  officialLanguages.sort((a,b)=>a.name.localeCompare(b.name)).forEach(lang=>{
     const option = document.createElement("option");
     option.value = lang.code;
     option.textContent = lang.name;
     langSelect.appendChild(option);
   });
 
-  // النصوص الأصلية (بالإنجليزية)
+  // النصوص المتوفرة
   const translations = {
     en: {
       title: "Welcome to My Project",
@@ -67,8 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
       adTitle: "Anuncio",
       adText: "Aquí aparecerá tu anuncio.",
       adButton: "Haz clic aquí para ver el anuncio"
-    },
-    // باقي الترجمات يمكن إضافتها لاحقاً
+    }
   };
 
   const elements = {
@@ -81,10 +69,10 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // تغيير اللغة
-  langSelect.addEventListener("change", () => {
+  langSelect.addEventListener("change", ()=>{
     const lang = langSelect.value;
     const t = translations[lang] || translations["en"];
-    for (let key in elements) {
+    for(let key in elements){
       elements[key].textContent = t[key];
     }
   });
@@ -94,18 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const adButton = document.getElementById("adButton");
   const closeAd = document.getElementById("closeAd");
 
-  adButton.addEventListener("click", () => {
-    modal.style.display = "block";
-  });
-
-  closeAd.addEventListener("click", () => {
-    modal.style.display = "none";
-  });
-
-  window.onclick = (event) => {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  };
+  adButton.addEventListener("click", ()=>{ modal.style.display="block"; });
+  closeAd.addEventListener("click", ()=>{ modal.style.display="none"; });
+  window.onclick = (event)=>{ if(event.target==modal) modal.style.display="none"; };
 
 });
