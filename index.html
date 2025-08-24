@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Project</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- شريط علوي -->
+  <header>
+    <h1 id="title">Welcome to My Project</h1>
+    <nav>
+      <select id="languageSelect">
+        <option value="ar">Arabic (AR)</option>
+        <option value="en">English (EN)</option>
+        <option value="es">Español (ES)</option>
+        <option value="fr">Français (FR)</option>
+        <option value="hi">हिन्दी (HI)</option>
+        <option value="ru">Русский (RU)</option>
+        <option value="zh">中文 (ZH)</option>
+      </select>
+    </nav>
+  </header>
+
+  <!-- قسم شرح المشروع -->
+  <main>
+    <section id="about">
+      <h2 id="aboutTitle">About the Project</h2>
+      <p id="aboutText">
+        This is a demo project where users can support an idea by interacting with ads.
+      </p>
+    </section>
+
+    <!-- زر الإعلان -->
+    <section>
+      <button id="adButton">Click here to view Ad</button>
+    </section>
+  </main>
+
+  <!-- نافذة الإعلان -->
+  <div id="adModal" class="modal">
+    <div class="modal-content">
+      <span id="closeAd">&times;</span>
+      <h3 id="adTitle">Advertisement</h3>
+      <p id="adText">This is where your advertisement will appear.</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
