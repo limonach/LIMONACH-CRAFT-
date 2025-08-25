@@ -4,12 +4,16 @@
   <meta charset="UTF-8">
   <title>موقعي بالنقاط</title>
   <script src="https://unpkg.com/@supabase/supabase-js"></script>
+  <style>
+    #earnBtn[disabled] {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
 </head>
 <body style="font-family: sans-serif; direction: rtl; text-align: center;">
 
   <h1>رصيدك: <span id="points">0</span> نقطة</h1>
-  <input type="text" id="telegramId" placeholder="أدخل Telegram ID">
-  <button onclick="saveUser()">حفظ الحساب</button>
   <hr>
 
   <h2>📢 أخبار الموقع</h2>
@@ -17,71 +21,117 @@
   <hr>
 
   <h2>🎯 المهمات</h2>
-  <button onclick="earnPoints()">شاهد فيديو واربح 50 نقطة</button>
+  <button id="earnBtn" onclick="earnPoints()">شاهد فيديو واربح 50 نقطة</button>
 
   <script>
-    // ربط Supabase
     const SUPABASE_URL = "https://ulmawlwxrbtojwpviaju.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsbWF3bHd4cmJ0b2p3cHZpYWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxMTg4MDMsImV4cCI6MjA3MTY5NDgwM30.AfuqZawzxqNxJ3d7H8PTB7ywRb_YpWEvFQH9HHZvDJ8";
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     let currentUser = null;
+    const COOLDOWN = 30; // ثواني
+    let cooldownInterval = null;
 
-    async function saveUser() {
-      const telegramId = document.getElementById("telegramId").value;
-      if (!telegramId) {
-        alert("أدخل Telegram ID");
-        return;
+    function getOrCreateUserId() {
+      let userId = localStorage.getItem("userId");
+      if (!userId) {
+        userId = "user_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
+        localStorage.setItem("userId", userId);
       }
+      return userId;
+    }
 
-      // تحقق واش المستخدم موجود
-      let { data: users } = await supabase
+    async function initUser() {
+      const userId = getOrCreateUserId();
+
+      let { data: user } = await supabase
         .from("users")
         .select("*")
-        .eq("telegram_id", telegramId)
+        .eq("telegram_id", userId)
         .single();
 
-      if (!users) {
-        // إذا ماكاينش، ندير إدخال جديد
+      if (!user) {
         let { data, error } = await supabase
           .from("users")
-          .insert([{ telegram_id: telegramId, points: 0 }]);
-
-        if (error) {
-          alert("خطأ: " + error.message);
-          return;
-        }
-        currentUser = { telegram_id: telegramId, points: 0 };
+          .insert([{ telegram_id: userId, points: 0, last_earn: null }]);
+        currentUser = { telegram_id: userId, points: 0, last_earn: null };
       } else {
-        currentUser = users;
+        currentUser = user;
       }
 
       document.getElementById("points").innerText = currentUser.points;
-      alert("تم حفظ الحساب!");
+
+      // تفعيل أو تعطيل زر النقاط حسب cooldown
+      checkCooldown();
+    }
+
+    function startCooldown(seconds) {
+      const btn = document.getElementById("earnBtn");
+      btn.disabled = true;
+      let remaining = seconds;
+
+      btn.innerText = `انتظر ${remaining} ثانية`;
+
+      cooldownInterval = setInterval(() => {
+        remaining--;
+        if (remaining <= 0) {
+          clearInterval(cooldownInterval);
+          btn.disabled = false;
+          btn.innerText = "شاهد فيديو واربح 50 نقطة";
+        } else {
+          btn.innerText = `انتظر ${remaining} ثانية`;
+        }
+      }, 1000);
+    }
+
+    function checkCooldown() {
+      if (!currentUser.last_earn) return;
+
+      const now = new Date();
+      const lastEarn = new Date(currentUser.last_earn);
+      const diff = Math.floor((now - lastEarn) / 1000);
+
+      if (diff < COOLDOWN) {
+        startCooldown(COOLDOWN - diff);
+      }
     }
 
     async function earnPoints() {
-      if (!currentUser) {
-        alert("أدخل Telegram ID أولا!");
-        return;
+      if (!currentUser) return;
+
+      const now = new Date();
+      const lastEarn = currentUser.last_earn ? new Date(currentUser.last_earn) : null;
+
+      if (lastEarn) {
+        const diff = (now - lastEarn) / 1000; // بالثواني
+        if (diff < COOLDOWN) {
+          alert(`انتظر ${Math.ceil(COOLDOWN - diff)} ثانية قبل جمع النقاط مرة أخرى`);
+          return;
+        }
       }
 
       const newPoints = currentUser.points + 50;
 
       let { data, error } = await supabase
         .from("users")
-        .update({ points: newPoints })
-        .eq("telegram_id", currentUser.telegram_id);
+        .update({ points: newPoints, last_earn: now.toISOString() })
+        .eq("telegram_id", currentUser.telegram_id)
+        .select();
 
-      if (error) {
-        alert("خطأ: " + error.message);
-        return;
+      if (!error && data.length > 0) {
+        currentUser.points = newPoints;
+        currentUser.last_earn = now.toISOString();
+        document.getElementById("points").innerText = currentUser.points;
+        alert("ربحت 50 نقطة!");
+
+        // بدء العد التنازلي للـ cooldown
+        startCooldown(COOLDOWN);
+      } else {
+        alert("حدث خطأ: " + (error ? error.message : "غير معروف"));
       }
-
-      currentUser.points = newPoints;
-      document.getElementById("points").innerText = currentUser.points;
-      alert("ربحت 50 نقطة!");
     }
+
+    window.onload = initUser;
   </script>
 </body>
 </html>
