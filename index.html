@@ -141,18 +141,25 @@
       const btn = document.getElementById("earnBtn");
       const adDiv = document.getElementById("adContainer");
 
-      // تحقق من cooldown
       if (btn.disabled) return;
 
-      // إظهار الإعلان وتعطيل الزر
       adDiv.style.display = "block";
       btn.disabled = true;
 
-      // بعد مدة العرض (مثلاً 10 ثواني) نضيف النقاط
-      setTimeout(async () => {
-        adDiv.style.display = "none";
-        await earnPoints();
-      }, 10000); // 10 ثواني
+      // عد تنازلي 5 ثواني قبل منح النقاط
+      let countdown = 5;
+      btn.innerText = `انتظر ${countdown} ثانية`;
+
+      const adCountdown = setInterval(() => {
+        countdown--;
+        if (countdown <= 0) {
+          clearInterval(adCountdown);
+          adDiv.style.display = "none";
+          earnPoints();
+        } else {
+          btn.innerText = `انتظر ${countdown} ثانية`;
+        }
+      }, 1000);
     }
 
     window.onload = initUser;
