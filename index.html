@@ -30,6 +30,8 @@
   <div style="margin-top:20px; border-top:1px solid #ddd; padding-top:10px;">
     <p>بعد مشاهدة الإعلان: عد تنازلي 5 ثواني</p>
     <p>المكافأة: 50 LIMONACH</p>
+    <!-- زر الأسفل يبقى للعرض فقط -->
+    <button id="bottomBtn">ابدأ الآن</button>
   </div>
 </main>
 
@@ -43,7 +45,7 @@
     <h3>إعلان</h3>
     <p>اضغط على الإعلان للبدء بالعد</p>
 
-    <!-- الإعلان الحقيقي -->
+    <!-- إعلانك الحقيقي -->
     <script async="async" data-cfasync="false" src="//pl27503803.profitableratecpm.com/b45971d1b8aa3575bc8628fdb5505ba0/invoke.js"></script>
     <div id="container-b45971d1b8aa3575bc8628fdb5505ba0"></div>
 
@@ -95,10 +97,6 @@
     document.getElementById('modal').style.display = 'none';
   }
 
-  // العد يبدأ عند الضغط على الإعلان
-  document.getElementById('container-b45971d1b8aa3575bc8628fdb5505ba0').addEventListener('click', startAd);
-  document.getElementById('adBanner').addEventListener('click', openAd);
-
   function startAd() {
     let time = 5;
     countdownInterval = setInterval(() => {
@@ -112,6 +110,10 @@
       time--;
     }, 1000);
   }
+
+  // العد يبدأ عند الضغط على الإعلان الحقيقي داخل المودال
+  document.getElementById('container-b45971d1b8aa3575bc8628fdb5505ba0').addEventListener('click', startAd);
+  // الزر الأسفل يبقى للعرض فقط ولا يفعل العد
 </script>
 
 </body>
