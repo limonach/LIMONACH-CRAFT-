@@ -9,10 +9,10 @@
   <style>
     body {font-family: sans-serif; background: #f9fafb; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center;}
     header, main, footer {width: 100%; max-width: 600px; background: white; margin: 10px; padding: 15px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
-    .ad-banner {height: 20px; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-top: 10px;}
     .modal {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center;}
     .modal-content {background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; text-align: center;}
-    button {background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;}
+    button {background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-top: 10px;}
+    #countdown {margin:10px; font-weight:bold;}
   </style>
 </head>
 <body>
@@ -24,13 +24,8 @@
 </header>
 
 <main>
-  <h3>الإعلانات</h3>
-  <div class="ad-banner" id="adBanner">إعلان (20px)</div>
-
   <div style="margin-top:20px; border-top:1px solid #ddd; padding-top:10px;">
-    <p>بعد مشاهدة الإعلان: عد تنازلي 5 ثواني</p>
-    <p>المكافأة: 50 LIMONACH</p>
-    <!-- زر الأسفل يبقى للعرض فقط -->
+    <p>اضغط على "ابدأ الآن" لعرض الإعلان والمكافأة</p>
     <button id="bottomBtn">ابدأ الآن</button>
   </div>
 </main>
@@ -43,13 +38,13 @@
   <div class="modal-content">
     <button style="background:#dc2626; float:left;" onclick="closeAd()">إغلاق</button>
     <h3>إعلان</h3>
-    <p>اضغط على الإعلان للبدء بالعد</p>
+    <p>اضغط على الإعلان للبدء بالعد التنازلي</p>
 
     <!-- إعلانك الحقيقي -->
     <script async="async" data-cfasync="false" src="//pl27503803.profitableratecpm.com/b45971d1b8aa3575bc8628fdb5505ba0/invoke.js"></script>
-    <div id="container-b45971d1b8aa3575bc8628fdb5505ba0"></div>
+    <div id="container-b45971d1b8aa3575bc8628fdb5505ba0" class="ad-banner" style="height:20px; border:1px solid #ddd; display:flex; align-items:center; justify-content:center; cursor:pointer; margin-top:10px;">إعلان 20px</div>
 
-    <div id="countdown" style="margin:10px; font-weight:bold;">5</div>
+    <div id="countdown">5</div>
   </div>
 </div>
 
@@ -111,9 +106,11 @@
     }, 1000);
   }
 
-  // العد يبدأ عند الضغط على الإعلان الحقيقي داخل المودال
+  // الزر في أسفل الصفحة لعرض الإعلان
+  document.getElementById('bottomBtn').addEventListener('click', openAd);
+
+  // العد يبدأ عند الضغط على الإعلان نفسه داخل المودال
   document.getElementById('container-b45971d1b8aa3575bc8628fdb5505ba0').addEventListener('click', startAd);
-  // الزر الأسفل يبقى للعرض فقط ولا يفعل العد
 </script>
 
 </body>
