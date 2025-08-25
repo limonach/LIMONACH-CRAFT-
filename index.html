@@ -1,110 +1,87 @@
-document.addEventListener("DOMContentLoaded", () => {
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>موقعي بالنقاط</title>
+  <script src="https://unpkg.com/@supabase/supabase-js"></script>
+</head>
+<body style="font-family: sans-serif; direction: rtl; text-align: center;">
 
-  // قائمة اللغات الرسمية لكل الدول
-  const officialLanguages = [
-    { code: "ar", name: "Arabic" },
-    { code: "en", name: "English" },
-    { code: "fr", name: "French" },
-    { code: "es", name: "Spanish" },
-    { code: "zh", name: "Chinese" },
-    { code: "hi", name: "Hindi" },
-    { code: "ru", name: "Russian" },
-    { code: "pt", name: "Portuguese" },
-    { code: "de", name: "German" },
-    { code: "ja", name: "Japanese" },
-    { code: "ko", name: "Korean" },
-    { code: "it", name: "Italian" },
-    { code: "tr", name: "Turkish" },
-    { code: "vi", name: "Vietnamese" },
-    { code: "fa", name: "Persian" },
-    { code: "bn", name: "Bengali" },
-    { code: "id", name: "Indonesian" },
-    { code: "th", name: "Thai" },
-    { code: "nl", name: "Dutch" },
-    { code: "sv", name: "Swedish" }
-    // يمكن إضافة باقي اللغات الرسمية لاحقًا
-  ];
+  <h1>رصيدك: <span id="points">0</span> نقطة</h1>
+  <input type="text" id="telegramId" placeholder="أدخل Telegram ID">
+  <button onclick="saveUser()">حفظ الحساب</button>
+  <hr>
 
-  // 1️⃣ ملء Dropdown باللغات
-  const langSelect = document.getElementById("languageSelect");
-  officialLanguages.sort((a,b) => a.name.localeCompare(b.name)).forEach(lang => {
-    const option = document.createElement("option");
-    option.value = lang.code;
-    option.textContent = lang.name;
-    langSelect.appendChild(option);
-  });
+  <h2>📢 أخبار الموقع</h2>
+  <p>مرحبا بك في موقع تجميع النقاط</p>
+  <hr>
 
-  // 2️⃣ النصوص المترجمة
-  const translations = {
-    en: {
-      title: "Welcome to My Project",
-      aboutTitle: "About the Project",
-      aboutText: "This is a demo project where users can support an idea by interacting with ads.",
-      adTitle: "Advertisement",
-      adText: "This is where your advertisement will appear.",
-      adButton: "Click here to view Ad"
-    },
-    ar: {
-      title: "مرحباً بكم في مشروعي",
-      aboutTitle: "حول المشروع",
-      aboutText: "هذا مشروع تجريبي حيث يمكن للمستخدمين دعم الفكرة من خلال مشاهدة الإعلانات.",
-      adTitle: "إعلان",
-      adText: "هنا سيظهر إعلانك.",
-      adButton: "إضغط هنا لمشاهدة الإعلان"
-    },
-    fr: {
-      title: "Bienvenue dans Mon Projet",
-      aboutTitle: "À propos du projet",
-      aboutText: "Ceci est un projet de démonstration où les utilisateurs peuvent soutenir une idée en regardant des publicités.",
-      adTitle: "Publicité",
-      adText: "C'est ici que votre annonce apparaîtra.",
-      adButton: "Cliquez ici pour voir l'annonce"
-    },
-    es: {
-      title: "Bienvenido a Mi Proyecto",
-      aboutTitle: "Sobre el Proyecto",
-      aboutText: "Este es un proyecto de demostración donde los usuarios pueden apoyar una idea viendo anuncios.",
-      adTitle: "Anuncio",
-      adText: "Aquí aparecerá tu anuncio.",
-      adButton: "Haz clic aquí para ver el anuncio"
+  <h2>🎯 المهمات</h2>
+  <button onclick="earnPoints()">شاهد فيديو واربح 50 نقطة</button>
+
+  <script>
+    // ربط Supabase
+    const SUPABASE_URL = "https://ulmawlwxrbtojwpviaju.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsbWF3bHd4cmJ0b2p3cHZpYWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxMTg4MDMsImV4cCI6MjA3MTY5NDgwM30.AfuqZawzxqNxJ3d7H8PTB7ywRb_YpWEvFQH9HHZvDJ8";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let currentUser = null;
+
+    async function saveUser() {
+      const telegramId = document.getElementById("telegramId").value;
+      if (!telegramId) {
+        alert("أدخل Telegram ID");
+        return;
+      }
+
+      // تحقق واش المستخدم موجود
+      let { data: users } = await supabase
+        .from("users")
+        .select("*")
+        .eq("telegram_id", telegramId)
+        .single();
+
+      if (!users) {
+        // إذا ماكاينش، ندير إدخال جديد
+        let { data, error } = await supabase
+          .from("users")
+          .insert([{ telegram_id: telegramId, points: 0 }]);
+
+        if (error) {
+          alert("خطأ: " + error.message);
+          return;
+        }
+        currentUser = { telegram_id: telegramId, points: 0 };
+      } else {
+        currentUser = users;
+      }
+
+      document.getElementById("points").innerText = currentUser.points;
+      alert("تم حفظ الحساب!");
     }
-  };
 
-  const elements = {
-    title: document.getElementById("title"),
-    aboutTitle: document.getElementById("aboutTitle"),
-    aboutText: document.getElementById("aboutText"),
-    adTitle: document.getElementById("adTitle"),
-    adText: document.getElementById("adText"),
-    adButton: document.getElementById("adButton")
-  };
+    async function earnPoints() {
+      if (!currentUser) {
+        alert("أدخل Telegram ID أولا!");
+        return;
+      }
 
-  // 3️⃣ تغيير اللغة عند الاختيار
-  langSelect.addEventListener("change", () => {
-    const lang = langSelect.value;
-    const t = translations[lang] || translations["en"];
-    for (let key in elements) {
-      elements[key].textContent = t[key];
+      const newPoints = currentUser.points + 50;
+
+      let { data, error } = await supabase
+        .from("users")
+        .update({ points: newPoints })
+        .eq("telegram_id", currentUser.telegram_id);
+
+      if (error) {
+        alert("خطأ: " + error.message);
+        return;
+      }
+
+      currentUser.points = newPoints;
+      document.getElementById("points").innerText = currentUser.points;
+      alert("ربحت 50 نقطة!");
     }
-  });
-
-  // 4️⃣ الإعلان (Modal)
-  const modal = document.getElementById("adModal");
-  const adButton = document.getElementById("adButton");
-  const closeAd = document.getElementById("closeAd");
-
-  adButton.addEventListener("click", () => {
-    modal.style.display = "block";
-  });
-
-  closeAd.addEventListener("click", () => {
-    modal.style.display = "none";
-  });
-
-  window.onclick = (event) => {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  };
-
-});
+  </script>
+</body>
+</html>
