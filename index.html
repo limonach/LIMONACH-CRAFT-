@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LIMONACH MiniApp</title>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <!-- Telegram MiniApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {font-family: sans-serif; background: #f9fafb; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center;}
@@ -26,12 +25,11 @@
 
 <main>
   <h3>الإعلانات</h3>
-  <div class="ad-banner" onclick="openAd()">إعلان (20px)</div>
+  <div class="ad-banner" id="adBanner">إعلان (20px)</div>
 
   <div style="margin-top:20px; border-top:1px solid #ddd; padding-top:10px;">
     <p>بعد مشاهدة الإعلان: عد تنازلي 5 ثواني</p>
     <p>المكافأة: 50 LIMONACH</p>
-    <button onclick="openAd()">ابدأ الآن</button>
   </div>
 </main>
 
@@ -43,14 +41,13 @@
   <div class="modal-content">
     <button style="background:#dc2626; float:left;" onclick="closeAd()">إغلاق</button>
     <h3>إعلان</h3>
-    <p>انتظر العد للحصول على 50 LIMONACH</p>
+    <p>اضغط على الإعلان للبدء بالعد</p>
 
-    <!-- إعلانك الحقيقي -->
+    <!-- الإعلان الحقيقي -->
     <script async="async" data-cfasync="false" src="//pl27503803.profitableratecpm.com/b45971d1b8aa3575bc8628fdb5505ba0/invoke.js"></script>
     <div id="container-b45971d1b8aa3575bc8628fdb5505ba0"></div>
 
     <div id="countdown" style="margin:10px; font-weight:bold;">5</div>
-    <button id="startBtn" onclick="startAd()">ابدأ المشاهدة</button>
   </div>
 </div>
 
@@ -62,12 +59,11 @@
   let telegramId = '';
   let countdownInterval;
 
-  // 🔹 الحصول على Telegram ID بشكل تلقائي
   window.Telegram.WebApp.ready();
   const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
   if (initDataUnsafe && initDataUnsafe.user) {
-    telegramId = initDataUnsafe.user.id; // الرقم الخاص بالمستخدم
-    loadUser(); // تحميل النقاط أو إنشاء حساب جديد
+    telegramId = initDataUnsafe.user.id;
+    loadUser();
   }
 
   async function loadUser() {
@@ -92,7 +88,6 @@
   function openAd() {
     document.getElementById('modal').style.display = 'flex';
     document.getElementById('countdown').innerText = '5';
-    document.getElementById('startBtn').style.display = 'inline-block';
   }
 
   function closeAd() {
@@ -100,9 +95,12 @@
     document.getElementById('modal').style.display = 'none';
   }
 
+  // العد يبدأ عند الضغط على الإعلان
+  document.getElementById('container-b45971d1b8aa3575bc8628fdb5505ba0').addEventListener('click', startAd);
+  document.getElementById('adBanner').addEventListener('click', openAd);
+
   function startAd() {
     let time = 5;
-    document.getElementById('startBtn').style.display = 'none';
     countdownInterval = setInterval(() => {
       document.getElementById('countdown').innerText = time;
       if (time <= 0) {
