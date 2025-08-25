@@ -1,167 +1,120 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>موقعي بالنقاط</title>
-  <script src="https://unpkg.com/@supabase/supabase-js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIMONACH MiniApp</title>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <!-- Telegram MiniApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    #earnBtn[disabled] {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-    #adContainer {
-      display: none;
-      margin-top: 20px;
-    }
+    body {font-family: sans-serif; background: #f9fafb; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center;}
+    header, main, footer {width: 100%; max-width: 600px; background: white; margin: 10px; padding: 15px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
+    .ad-banner {height: 20px; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-top: 10px;}
+    .modal {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center;}
+    .modal-content {background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; text-align: center;}
+    button {background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;}
   </style>
 </head>
-<body style="font-family: sans-serif; direction: rtl; text-align: center;">
+<body>
 
-  <h1>رصيدك: <span id="points">0</span> نقطة</h1>
-  <hr>
+<header>
+  <h2>LIMONACH - MiniApp</h2>
+  <p>جمع رأس المال بمشاهدة الإعلانات</p>
+  <div>رصيدك: <span id="points">0</span> LIMONACH</div>
+</header>
 
-  <h2>📢 أخبار الموقع</h2>
-  <p>مرحبا بك في موقع تجميع النقاط</p>
-  <hr>
+<main>
+  <h3>الإعلانات</h3>
+  <div class="ad-banner" onclick="openAd()">إعلان (20px)</div>
 
-  <h2>🎯 المهمات</h2>
-  <button id="earnBtn" onclick="showAd()">شاهد فيديو واربح 50 نقطة</button>
+  <div style="margin-top:20px; border-top:1px solid #ddd; padding-top:10px;">
+    <p>بعد مشاهدة الإعلان: عد تنازلي 5 ثواني</p>
+    <p>المكافأة: 50 LIMONACH</p>
+    <button onclick="openAd()">ابدأ الآن</button>
+  </div>
+</main>
 
-  <div id="adContainer">
+<footer>
+  <p style="font-size:12px; color:gray;">جاهز للتشغيل داخل Telegram MiniApp</p>
+</footer>
+
+<div id="modal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <button style="background:#dc2626; float:left;" onclick="closeAd()">إغلاق</button>
+    <h3>إعلان</h3>
+    <p>انتظر العد للحصول على 50 LIMONACH</p>
+
+    <!-- إعلانك الحقيقي -->
     <script async="async" data-cfasync="false" src="//pl27503803.profitableratecpm.com/b45971d1b8aa3575bc8628fdb5505ba0/invoke.js"></script>
     <div id="container-b45971d1b8aa3575bc8628fdb5505ba0"></div>
+
+    <div id="countdown" style="margin:10px; font-weight:bold;">5</div>
+    <button id="startBtn" onclick="startAd()">ابدأ المشاهدة</button>
   </div>
+</div>
 
-  <script>
-    const SUPABASE_URL = "https://ulmawlwxrbtojwpviaju.supabase.co";
-    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsbWF3bHd4cmJ0b2p3cHZpYWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxMTg4MDMsImV4cCI6MjA3MTY5NDgwM30.AfuqZawzxqNxJ3d7H8PTB7ywRb_YpWEvFQH9HHZvDJ8";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+<script>
+  const SUPABASE_URL = 'https://ulmawlwxrbtojwpviaju.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsbWF3bHd4cmJ0b2p3cHZpYWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5NTMyNTcsImV4cCI6MjA2OTUyOTI1N30.ovnvFlOffZZfCuHXhGfQBnV8SVuC8x8AimKrxGTIXWU';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    let currentUser = null;
-    const COOLDOWN = 30; // ثواني
-    let cooldownInterval = null;
+  let telegramId = '';
+  let countdownInterval;
 
-    function getOrCreateUserId() {
-      let userId = localStorage.getItem("userId");
-      if (!userId) {
-        userId = "user_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
-        localStorage.setItem("userId", userId);
+  // 🔹 الحصول على Telegram ID بشكل تلقائي
+  window.Telegram.WebApp.ready();
+  const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
+  if (initDataUnsafe && initDataUnsafe.user) {
+    telegramId = initDataUnsafe.user.id; // الرقم الخاص بالمستخدم
+    loadUser(); // تحميل النقاط أو إنشاء حساب جديد
+  }
+
+  async function loadUser() {
+    if (!telegramId) return;
+    const { data } = await supabase.from('users').select('points').eq('telegram_id', telegramId).single();
+    if (!data) {
+      await supabase.from('users').upsert({ telegram_id: telegramId, points: 0 });
+      document.getElementById('points').innerText = 0;
+    } else {
+      document.getElementById('points').innerText = data.points;
+    }
+  }
+
+  async function creditPoints(amount) {
+    const { data } = await supabase.from('users').select('points').eq('telegram_id', telegramId).single();
+    const current = data?.points || 0;
+    const updated = current + amount;
+    await supabase.from('users').upsert({ telegram_id: telegramId, points: updated });
+    document.getElementById('points').innerText = updated;
+  }
+
+  function openAd() {
+    document.getElementById('modal').style.display = 'flex';
+    document.getElementById('countdown').innerText = '5';
+    document.getElementById('startBtn').style.display = 'inline-block';
+  }
+
+  function closeAd() {
+    clearInterval(countdownInterval);
+    document.getElementById('modal').style.display = 'none';
+  }
+
+  function startAd() {
+    let time = 5;
+    document.getElementById('startBtn').style.display = 'none';
+    countdownInterval = setInterval(() => {
+      document.getElementById('countdown').innerText = time;
+      if (time <= 0) {
+        clearInterval(countdownInterval);
+        closeAd();
+        creditPoints(50);
+        alert('✅ تم إضافة 50 LIMONACH!');
       }
-      return userId;
-    }
+      time--;
+    }, 1000);
+  }
+</script>
 
-    async function initUser() {
-      const userId = getOrCreateUserId();
-
-      let { data: user, error } = await supabase
-        .from("users")
-        .select("*")
-        .eq("telegram_id", userId)
-        .single();
-
-      if (error) console.log("Fetch user error:", error);
-
-      if (!user) {
-        let { data, error } = await supabase
-          .from("users")
-          .insert([{ telegram_id: userId, username: userId, points: 0, last_earn: null }])
-          .select();
-
-        if (error) console.log("Insert user error:", error);
-        currentUser = data[0];
-      } else {
-        currentUser = user;
-      }
-
-      document.getElementById("points").innerText = currentUser.points;
-      checkCooldown();
-    }
-
-    function startCooldown(seconds) {
-      const btn = document.getElementById("earnBtn");
-      btn.disabled = true;
-      let remaining = seconds;
-
-      btn.innerText = `انتظر ${remaining} ثانية`;
-
-      cooldownInterval = setInterval(() => {
-        remaining--;
-        if (remaining <= 0) {
-          clearInterval(cooldownInterval);
-          btn.disabled = false;
-          btn.innerText = "شاهد فيديو واربح 50 نقطة";
-        } else {
-          btn.innerText = `انتظر ${remaining} ثانية`;
-        }
-      }, 1000);
-    }
-
-    function checkCooldown() {
-      if (!currentUser.last_earn) return;
-
-      const now = new Date();
-      const lastEarn = new Date(currentUser.last_earn);
-      const diff = Math.floor((now - lastEarn) / 1000);
-
-      if (diff < COOLDOWN) {
-        startCooldown(COOLDOWN - diff);
-      }
-    }
-
-    async function earnPoints() {
-      const now = new Date();
-      if (currentUser.last_earn) {
-        const diff = (now - new Date(currentUser.last_earn)) / 1000;
-        if (diff < COOLDOWN) {
-          alert(`انتظر ${Math.ceil(COOLDOWN - diff)} ثانية قبل جمع النقاط مرة أخرى`);
-          return;
-        }
-      }
-
-      let { data, error } = await supabase
-        .from("users")
-        .update({ last_earn: now.toISOString() })
-        .eq("telegram_id", currentUser.telegram_id)
-        .increment('points', 50);
-
-      console.log(error); // هادي باش تعرف أي خطأ حقيقي
-
-      if (!error && data.length > 0) {
-        currentUser.points += 50;
-        currentUser.last_earn = now.toISOString();
-        document.getElementById("points").innerText = currentUser.points;
-        alert("ربحت 50 نقطة!");
-        startCooldown(COOLDOWN);
-      } else {
-        alert("حدث خطأ: " + (error ? error.message : "غير معروف"));
-      }
-    }
-
-    function showAd() {
-      const btn = document.getElementById("earnBtn");
-      const adDiv = document.getElementById("adContainer");
-
-      if (btn.disabled) return;
-
-      adDiv.style.display = "block";
-      btn.disabled = true;
-
-      let countdown = 5;
-      btn.innerText = `انتظر ${countdown} ثانية`;
-
-      const adCountdown = setInterval(() => {
-        countdown--;
-        if (countdown <= 0) {
-          clearInterval(adCountdown);
-          adDiv.style.display = "none";
-          earnPoints();
-        } else {
-          btn.innerText = `انتظر ${countdown} ثانية`;
-        }
-      }, 1000);
-    }
-
-    window.onload = initUser;
-  </script>
 </body>
 </html>
