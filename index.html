@@ -9,6 +9,10 @@
       background-color: #ccc;
       cursor: not-allowed;
     }
+    #adContainer {
+      display: none;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body style="font-family: sans-serif; direction: rtl; text-align: center;">
@@ -21,7 +25,13 @@
   <hr>
 
   <h2>🎯 المهمات</h2>
-  <button id="earnBtn" onclick="earnPoints()">شاهد فيديو واربح 50 نقطة</button>
+  <button id="earnBtn" onclick="showAd()">شاهد فيديو واربح 50 نقطة</button>
+
+  <!-- حاوية الإعلان -->
+  <div id="adContainer">
+    <script async="async" data-cfasync="false" src="//pl27503803.profitableratecpm.com/b45971d1b8aa3575bc8628fdb5505ba0/invoke.js"></script>
+    <div id="container-b45971d1b8aa3575bc8628fdb5505ba0"></div>
+  </div>
 
   <script>
     const SUPABASE_URL = "https://ulmawlwxrbtojwpviaju.supabase.co";
@@ -60,8 +70,6 @@
       }
 
       document.getElementById("points").innerText = currentUser.points;
-
-      // تفعيل أو تعطيل زر النقاط حسب cooldown
       checkCooldown();
     }
 
@@ -103,7 +111,7 @@
       const lastEarn = currentUser.last_earn ? new Date(currentUser.last_earn) : null;
 
       if (lastEarn) {
-        const diff = (now - lastEarn) / 1000; // بالثواني
+        const diff = (now - lastEarn) / 1000;
         if (diff < COOLDOWN) {
           alert(`انتظر ${Math.ceil(COOLDOWN - diff)} ثانية قبل جمع النقاط مرة أخرى`);
           return;
@@ -123,12 +131,28 @@
         currentUser.last_earn = now.toISOString();
         document.getElementById("points").innerText = currentUser.points;
         alert("ربحت 50 نقطة!");
-
-        // بدء العد التنازلي للـ cooldown
         startCooldown(COOLDOWN);
       } else {
         alert("حدث خطأ: " + (error ? error.message : "غير معروف"));
       }
+    }
+
+    function showAd() {
+      const btn = document.getElementById("earnBtn");
+      const adDiv = document.getElementById("adContainer");
+
+      // تحقق من cooldown
+      if (btn.disabled) return;
+
+      // إظهار الإعلان وتعطيل الزر
+      adDiv.style.display = "block";
+      btn.disabled = true;
+
+      // بعد مدة العرض (مثلاً 10 ثواني) نضيف النقاط
+      setTimeout(async () => {
+        adDiv.style.display = "none";
+        await earnPoints();
+      }, 10000); // 10 ثواني
     }
 
     window.onload = initUser;
