@@ -1,117 +1,115 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LIMONACH MiniApp</title>
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <title>LIMONACH Mining</title>
   <style>
-    body {font-family: sans-serif; background: #f9fafb; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center;}
-    header, main, footer {width: 100%; max-width: 600px; background: white; margin: 10px; padding: 15px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
-    .modal {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center;}
-    .modal-content {background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; text-align: center;}
-    button {background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-top: 10px;}
-    #countdown {margin:10px; font-weight:bold;}
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* الرصيد في الأعلى */
+    #balance {
+      background: #ff9800;
+      color: white;
+      font-size: 24px;
+      padding: 15px;
+      font-weight: bold;
+    }
+
+    /* زر شاهد واربح */
+    #watch-earn {
+      background: #2196f3;
+      color: white;
+      margin: 40px auto;
+      padding: 20px;
+      width: 250px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 20px;
+      transition: 0.3s;
+    }
+    #watch-earn:hover {
+      background: #1976d2;
+    }
+
+    /* مكان الإعلان */
+    #ad-container {
+      display: none;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border: 2px solid #ccc;
+      width: 80%;
+      border-radius: 10px;
+    }
+
+    /* الخانات تحت */
+    .coming-soon-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      padding: 20px;
+    }
+    .coming-soon {
+      background: #ddd;
+      padding: 40px;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
 
-<header>
-  <h2>LIMONACH - MiniApp</h2>
-  <p>جمع رأس المال بمشاهدة الإعلانات</p>
-  <div>رصيدك: <span id="points">0</span> LIMONACH</div>
-</header>
+  <!-- الرصيد -->
+  <div id="balance">رصيدك: 0 LIMONACH</div>
 
-<main>
-  <div style="margin-top:20px; border-top:1px solid #ddd; padding-top:10px;">
-    <p>اضغط على "ابدأ الآن" لعرض الإعلان والمكافأة</p>
-    <button id="bottomBtn">ابدأ الآن</button>
+  <!-- زر شاهد واربح -->
+  <div id="watch-earn">شاهد واربح</div>
+
+  <!-- مكان الإعلان -->
+  <div id="ad-container">
+    <script async="async" data-cfasync="false" 
+      src="//pl27503803.profitableratecpm.com/b45971d1b8aa3575bc8628fdb5505ba0/invoke.js">
+    </script>
+    <div id="container-b45971d1b8aa3575bc8628fdb5505ba0"></div>
   </div>
-</main>
 
-<footer>
-  <p style="font-size:12px; color:gray;">جاهز للتشغيل داخل Telegram MiniApp</p>
-</footer>
-
-<div id="modal" class="modal" style="display:none;">
-  <div class="modal-content">
-    <button style="background:#dc2626; float:left;" onclick="closeAd()">إغلاق</button>
-    <h3>إعلان</h3>
-    <p>اضغط على الإعلان للبدء بالعد التنازلي</p>
-
-    <!-- إعلانك الحقيقي -->
-    <script async="async" data-cfasync="false" src="//pl27503803.profitableratecpm.com/b45971d1b8aa3575bc8628fdb5505ba0/invoke.js"></script>
-    <div id="container-b45971d1b8aa3575bc8628fdb5505ba0" class="ad-banner" style="height:20px; border:1px solid #ddd; display:flex; align-items:center; justify-content:center; cursor:pointer; margin-top:10px;">إعلان 20px</div>
-
-    <div id="countdown">5</div>
+  <!-- الخانات أسفل -->
+  <div class="coming-soon-container">
+    <div class="coming-soon">Coming Soon</div>
+    <div class="coming-soon">Coming Soon</div>
+    <div class="coming-soon">Coming Soon</div>
+    <div class="coming-soon">Coming Soon</div>
   </div>
-</div>
 
-<script>
-  const SUPABASE_URL = 'https://ulmawlwxrbtojwpviaju.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVsbWF3bHd4cmJ0b2p3cHZpYWp1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5NTMyNTcsImV4cCI6MjA2OTUyOTI1N30.ovnvFlOffZZfCuHXhGfQBnV8SVuC8x8AimKrxGTIXWU';
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  <script>
+    let balance = 0;
+    const balanceEl = document.getElementById("balance");
+    const adContainer = document.getElementById("ad-container");
+    const watchEarnBtn = document.getElementById("watch-earn");
 
-  let telegramId = '';
-  let countdownInterval;
-
-  window.Telegram.WebApp.ready();
-  const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
-  if (initDataUnsafe && initDataUnsafe.user) {
-    telegramId = initDataUnsafe.user.id;
-    loadUser();
-  }
-
-  async function loadUser() {
-    if (!telegramId) return;
-    const { data } = await supabase.from('users').select('points').eq('telegram_id', telegramId).single();
-    if (!data) {
-      await supabase.from('users').upsert({ telegram_id: telegramId, points: 0 });
-      document.getElementById('points').innerText = 0;
-    } else {
-      document.getElementById('points').innerText = data.points;
+    // تحميل الرصيد المخزن إذا كان موجود
+    if (localStorage.getItem("limonachBalance")) {
+      balance = parseInt(localStorage.getItem("limonachBalance"));
+      balanceEl.textContent = "رصيدك: " + balance + " LIMONACH";
     }
-  }
 
-  async function creditPoints(amount) {
-    const { data } = await supabase.from('users').select('points').eq('telegram_id', telegramId).single();
-    const current = data?.points || 0;
-    const updated = current + amount;
-    await supabase.from('users').upsert({ telegram_id: telegramId, points: updated });
-    document.getElementById('points').innerText = updated;
-  }
-
-  function openAd() {
-    document.getElementById('modal').style.display = 'flex';
-    document.getElementById('countdown').innerText = '5';
-  }
-
-  function closeAd() {
-    clearInterval(countdownInterval);
-    document.getElementById('modal').style.display = 'none';
-  }
-
-  function startAd() {
-    let time = 5;
-    countdownInterval = setInterval(() => {
-      document.getElementById('countdown').innerText = time;
-      if (time <= 0) {
-        clearInterval(countdownInterval);
-        closeAd();
-        creditPoints(50);
-        alert('✅ تم إضافة 50 LIMONACH!');
-      }
-      time--;
-    }, 1000);
-  }
-
-  // الزر في أسفل الصفحة لعرض الإعلان
-  document.getElementById('bottomBtn').addEventListener('click', openAd);
-
-  // العد يبدأ عند الضغط على الإعلان نفسه داخل المودال
-  document.getElementById('container-b45971d1b8aa3575bc8628fdb5505ba0').addEventListener('click', startAd);
-</script>
+    watchEarnBtn.addEventListener("click", () => {
+      adContainer.style.display = "block"; // يظهر الإعلان
+      setTimeout(() => {
+        adContainer.style.display = "none"; // يخفي الإعلان بعد 5 ثواني
+        balance += 50; // يضيف 50 عملة
+        balanceEl.textContent = "رصيدك: " + balance + " LIMONACH";
+        localStorage.setItem("limonachBalance", balance); // حفظ الرصيد
+      }, 5000);
+    });
+  </script>
 
 </body>
 </html>
