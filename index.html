@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idle Play-to-Earn Game - ملخص المشروع</title>
+    <style>
+        :root {
+            --primary: #2a2d72;
+            --secondary: #ff9f43;
+            --accent: #00cfc8;
+            --light: #f5f6fa;
+            --dark: #1e1e2c;
+            --success: #4cd137;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a1c4e 100%);
+            color: var(--light);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 25px 0 15px;
+            color: var(--accent);
+            border-right: 4px solid var(--secondary);
+            padding-right: 15px;
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin: 15px 0;
+            color: var(--secondary);
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .subtitle {
+            font-size: 1.4rem;
+            color: var(--accent);
+            margin-bottom: 30px;
+        }
+        
+        .game-concept {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .game-concept:hover {
+            transform: translateY(-5px);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            background: rgba(42, 45, 114, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            background: rgba(42, 45, 114, 0.8);
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: #ffaa58;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .game-ui-preview {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .ui-elements {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .ui-element {
+            background: var(--dark);
+            padding: 15px;
+            border-radius: 10px;
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .highlight {
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        #langBtn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--accent);
+            color: var(--dark);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button id="langBtn" class="btn">English</button>
+    <div class="container">
+        <header>
+            <h1 data-ar="Idle Play-to-Earn Game" data-en="Idle Play-to-Earn Game">Idle Play-to-Earn Game</h1>
+            <p class="subtitle" data-ar="إدارة الموارد، جمع المكافآت، وتحقيق الأرباح - حتى عندما لا تلعب!" data-en="Manage resources, collect rewards, and earn profits—even while offline!">إدارة الموارد، جمع المكافآت، وتحقيق الأرباح - حتى عندما لا تلعب!</p>
+        </header>
+        
+        <section class="game-concept">
+            <h2 data-ar="فكرة اللعبة" data-en="Game Concept">فكرة اللعبة</h2>
+            <p data-ar="لعبة <span class='highlight'>Idle / Incremental</span> حيث يمكن للاعبين إدارة مواردهم وجمع المكافآت بشكل تلقائي حتى بدون تفاعل مستمر. بإمكان اللاعبين العودة في أي وقت ليجدوا أن مواردهم قد زادت وأنهم حققوا أرباحًا." data-en="An <span class='highlight'>Idle / Incremental</span> game where players manage resources and collect rewards automatically even without constant interaction. Players can return anytime to find their resources grown and profits earned.">لعبة <span class="highlight">Idle / Incremental</span> حيث يمكن للاعبين إدارة مواردهم وجمع المكافآت بشكل تلقائي حتى بدون تفاعل مستمر. بإمكان اللاعبين العودة في أي وقت ليجدوا أن مواردهم قد زادت وأنهم حققوا أرباحًا.</p>
+            <p data-ar="تمتاز اللعبة بإضافة مهام قصيرة وتحديات لزيادة التفاعل والحفاظ على تشويق المستخدمين." data-en="The game includes short tasks and challenges to increase engagement and maintain user excitement.">تمتاز اللعبة بإضافة مهام قصيرة وتحديات لزيادة التفاعل والحفاظ على تشويق المستخدمين.</p>
+        </section>
+        
+        <h2 data-ar="مميزات اللعبة الأساسية" data-en="Core Features">مميزات اللعبة الأساسية</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">💎</div>
+                <h3 data-ar="نظام المكافآت والعملات" data-en="Rewards & Currency System">نظام المكافآت والعملات</h3>
+                <p data-ar="عملة داخل اللعبة (Play-to-Earn Token) تُمنح بناءً على الإنتاج أو المهام. يمكن سحب جزء من العملة الرقمية إلى المحفظة الرقمية للاعب." data-en="In-game currency (Play-to-Earn Token) is awarded based on production or tasks. Players can withdraw part of the digital currency to their wallet.">عملة داخل اللعبة (Play-to-Earn Token) تُمنح بناءً على الإنتاج أو المهام. يمكن سحب جزء من العملة الرقمية إلى المحفظة الرقمية للاعب.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3 data-ar="نظام متوازن للعملة" data-en="Balanced Currency System">نظام متوازن للعملة</h3>
+                <p data-ar="ربط قيمة العملة داخل اللعبة بالعملة الرئيسية بشكل متوازن يضمن استقرار الاقتصاد داخل اللعبة وحماية قيمة مكاسب اللاعبين." data-en="Linking the in-game currency to a main currency ensures a balanced economy and protects players' earnings.">ربط قيمة العملة داخل اللعبة بالعملة الرئيسية بشكل متوازن يضمن استقرار الاقتصاد داخل اللعبة وحماية قيمة مكاسب اللاعبين.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎁</div>
+                <h3 data-ar="نظام الأيردروب" data-en="Airdrop System">نظام الأيردروب</h3>
+                <p data-ar="توزيع مكافآت شهرية للاعبين الجدد والمستمرين. مكافآت تحفيزية للحفاظ على استمرار اللاعبين داخل اللعبة وزيادة تفاعلهم." data-en="Monthly rewards for new and existing players. Incentives keep players engaged and active.">توزيع مكافآت شهرية للاعبين الجدد والمستمرين. مكافآت تحفيزية للحفاظ على استمرار اللاعبين داخل اللعبة وزيادة تفاعلهم.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3 data-ar="التقدم والتطوير" data-en="Progress & Upgrades">التقدم والتطوير</h3>
+                <p data-ar="ترقيات المعدات والشخصيات لزيادة الإنتاجية. فتح مناجم ومستويات جديدة مع تقدم اللاعب. مهام خاصة وأحداث موسمية تمنح جوائز فريدة." data-en="Upgrade equipment and characters to increase productivity. Unlock new mines and levels as you progress. Special tasks and seasonal events offer unique rewards.">ترقيات المعدات والشخصيات لزيادة الإنتاجية. فتح مناجم ومستويات جديدة مع تقدم اللاعب. مهام خاصة وأحداث موسمية تمنح جوائز فريدة.</p>
+            </div>
+        </div>
+        
+        <section class="game-concept">
+            <h2 data-ar="واجهة المستخدم وتجربة اللعب" data-en="User Interface & Gameplay">واجهة المستخدم وتجربة اللعب</h2>
+            <p data-ar="تصميم بسيط وجذاب، مناسب لجميع الأعمار. إمكانية اللعب بدون صوت أو باستخدام أصوات اللعبة فقط. نظام HUD يوضح الموارد، المكافآت، ومستوى اللاعب بشكل واضح." data-en="Simple and attractive design suitable for all ages. Play with or without game sounds. HUD clearly shows resources, rewards, and player level.">تصميم بسيط وجذاب، مناسب لجميع الأعمار. إمكانية اللعب بدون صوت أو باستخدام أصوات اللعبة فقط. نظام HUD يوضح الموارد، المكافآت، ومستوى اللاعب بشكل واضح.</p>
+            
+            <div class="game-ui-preview">
+                <h3 data-ar="نموذج واجهة اللعبة" data-en="Game UI Preview">نموذج واجهة اللعبة</h3>
+                <div class="ui-elements">
+                    <div class="ui-element">
+                        <p data-ar="💰 العملة: <span class='highlight'>12,450</span>" data-en="💰 Currency: <span class='highlight'>12,450</span>">💰 العملة: <span class="highlight">12,450</span></p>
+                    </div>
+                    <div class="ui-element">
+                        <p data-ar="⛏️ المناجم: <span class='highlight'>3</span>" data-en="⛏️ Mines: <span class='highlight'>3</span>">⛏️ المناجم: <span class="highlight">3</span></p>
+                    </div>
+                    <div class="ui-element">
+                        <p data-ar="📊 المستوى: <span class='highlight'>15</span>" data-en="📊 Level: <span class='highlight'>15</span>">📊 المستوى: <span class="highlight">15</span></p>
+                    </div>
+                    <div class="ui-element">
+                        <p data-ar="⚡ الطاقة: <span class='highlight'>78%</span>" data-en="⚡ Energy: <span class='highlight'>78%</span>">⚡ الطاقة: <span class="highlight">78%</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="game-concept">
+            <h2 data-ar="العبة مشابهة كمثال" data-en="Similar Game Example">العبة مشابهة كمثال</h2>
+            <p data-ar="لعبة Idle Miner Tycoon التي طورتها Fluffy Fairy Games يمكن أن تكون مصدر إلهام للواجهة وتجربة المستخدم مع إضافة مميزات Play-to-Earn." data-en="Idle Miner Tycoon by Fluffy Fairy Games can inspire UI and UX design with added Play-to-Earn features.">لعبة Idle Miner Tycoon التي طورتها Fluffy Fairy Games يمكن أن تكون مصدر إلهام للواجهة وتجربة المستخدم مع إضافة مميزات Play-to-Earn.</p>
+            <p>رابط اللعبة: <a href="https://play.google.com/store/apps/details?id=com.fluffyfairygames.idleminertycoon" style="color: var(--accent);">Idle Miner Tycoon on Google Play</a></p>
+        </section>
+        
+        <div style="text-align: center; margin: 40px 0;">
+            <a href="#" class="btn" data-ar="عرض خطة التطوير" data-en="View Development Plan">عرض خطة التطوير</a>
+            <a href="#" class="btn" data-ar="التواصل مع المطورين" data-en="Contact Developers">التواصل مع المطورين</a>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p data-ar="© 2023 Idle Play-to-Earn Game. جميع الحقوق محفوظة." data-en="© 2023 Idle Play-to-Earn Game. All rights reserved.">© 2023 Idle Play-to-Earn Game. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        const langBtn = document.getElementById('langBtn');
+        let isArabic = true;
+
+        langBtn.addEventListener('click', () => {
+            document.querySelectorAll('[data-ar]').forEach(el => {
+                el.innerHTML = isArabic ? el.getAttribute('data-en') : el.getAttribute('data-ar');
+            });
+            document.documentElement.dir = isArabic ? 'ltr' : 'rtl';
+            langBtn.textContent = isArabic ? 'العربية' : 'English';
+            isArabic = !isArabic;
+        });
+    </script>
+</body>
+</html>
