@@ -1,34 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar">
 <head>
-  <title>Internet Speed Test</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AD View</title>
+
+<script name="OpenADTGJsSDK"
+version="4.0"
+type="text/javascript"
+src="https://protocol.openad.network/tg/sdk.loader.js">
+</script>
+
+<style>
+body,html{margin:0;padding:0;height:100%;display:flex;justify-content:center;align-items:center;background:#fafafa;}
+#ad-box{width:100%;max-width:360px;height:600px;border:0;}
+</style>
 </head>
+
 <body>
-  <h1>اختبار سرعة الإنترنت</h1>
-  <button onclick="testSpeed()">ابدأ الاختبار</button>
-  <p id="result"></p>
 
-  <script>
-    function testSpeed() {
-      const imageAddr = "https://via.placeholder.com/1000x1000.png"; // حجم الصورة حوالي 1000 كيلوبايت
-      const downloadSize = 1000000 * 8; // بحساب البت (1 ميجابايت = 8 ميجابت)
-      const startTime = new Date().getTime();
+<div id="ad-box"></div>
 
-      const download = new Image();
-      download.onload = function () {
-        const endTime = new Date().getTime();
-        const duration = (endTime - startTime) / 1000; // بالثواني
-        const speedBps = downloadSize / duration; // بت في الثانية
-        const speedMbps = speedBps / (1024 * 1024); // ميجابت في الثانية
-        document.getElementById("result").innerText = "سرعة التنزيل: " + speedMbps.toFixed(2) + " ميجابت/ثانية";
-      };
+<script>
+const redirectURL = "https://keko.dev/api/url.php/?show=EARN_FREE_TON_LIMONACH_BOT&id=9f662a39a3da123ffcde6a59947c546e";
 
-      download.onerror = function () {
-        document.getElementById("result").innerText = "فشل في تحميل الصورة لاختبار السرعة";
-      };
+window.onload = function() {
+  openADSdkLoader.init({
+    containerId: "ad-box",
+    zoneId: 535,
+    publisherId: 655,
 
-      download.src = imageAddr + "?cache=" + Math.random(); // لمنع التخزين المؤقت
+    onAdFinish: function() {
+      window.location.href = redirectURL;
     }
-  </script>
+  });
+};
+</script>
+
 </body>
 </html>
