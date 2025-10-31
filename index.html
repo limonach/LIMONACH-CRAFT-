@@ -1,41 +1,62 @@
-<!DOCTYPE html>
-<html lang="ar">
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AD View</title>
-
-<script name="OpenADTGJsSDK"
-version="4.0"
-type="text/javascript"
-src="https://protocol.openad.network/tg/sdk.loader.js">
-</script>
-
-<style>
-body,html{margin:0;padding:0;height:100%;display:flex;justify-content:center;align-items:center;background:#fafafa;}
-#ad-box{width:100%;max-width:360px;height:600px;border:0;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مدونة تقنية</title>
+  <meta name="description" content="مدونة تقنية تقدم مقالات وشروحات عن الإنترنت والربح والتقنية.">
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 0; background: #f9f9f9; }
+    header { background: #0a74da; color: white; padding: 15px; text-align: center; }
+    nav { background: #fff; padding: 10px; text-align: center; border-bottom: 1px solid #ddd; }
+    nav a { margin: 0 10px; text-decoration: none; color: #0a74da; font-weight: bold; }
+    .container { width: 90%; max-width: 900px; margin: auto; padding: 20px; }
+    article { background: #fff; padding: 20px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ddd; }
+    footer { background: #0a74da; color: white; text-align: center; padding: 15px; }
+  </style>
 </head>
-
 <body>
+  <header>
+    <h1>مدونة التقنية والربح</h1>
+    <p>مقالات وشروحات في عالم الويب والربح من الإنترنت</p>
+  </header>
+  <nav>
+    <a href="#">الرئيسية</a>
+    <a href="#">الربح من الإنترنت</a>
+    <a href="#">بلوجر</a>
+    <a href="#">اتصل بنا</a>
+  </nav>
+  <div class="container">
+    <article>
+      <h2>مرحبا بكم في موقعنا</h2>
+      <p>هذا الموقع يقدم محتوى حصري ومفيد حول الربح من الإنترنت، تطوير المواقع، والتقنية الحديثة.
+      هدفنا تقديم مقالات حصرية ذات فائدة عالية واحترام سياسات Google AdSense بالكامل.</p>
+    </article><article>
+  <h2>كيف تربح من الإنترنت بسهولة</h2>
+  <p>الربح من الإنترنت أصبح ممكنًا للجميع من خلال عدة طرق مثل التسويق بالعمولة، إنشاء محتوى على منصات مختلفة، أو بيع منتجات رقمية. أهم نصيحة هي التركيز على تقديم محتوى قيّم ومستمر لجذب الزوار بشكل طبيعي.</p>
+</article>
 
-<div id="ad-box"></div>
+<article>
+  <h2>أفضل منصات التدوين</h2>
+  <p>هناك العديد من منصات التدوين مثل WordPress وBlogger وMedium. اختيار المنصة يعتمد على خبرتك التقنية وهدفك من الموقع. WordPress يوفر مرونة كاملة بينما Blogger سهل الاستخدام للمبتدئين.</p>
+</article>
 
-<script>
-const redirectURL = "https://keko.dev/api/url.php/?show=EARN_FREE_TON_LIMONACH_BOT&id=9f662a39a3da123ffcde6a59947c546e";
+<article>
+  <h2>أهمية تحسين محركات البحث SEO</h2>
+  <p>تحسين محركات البحث يساعد موقعك على الظهور في نتائج البحث بشكل أفضل، مما يزيد من عدد الزوار الطبيعيين وبالتالي الأرباح من الإعلانات. استخدام الكلمات المفتاحية المناسبة، الروابط الداخلية، وسرعة الموقع من أهم عوامل SEO.</p>
+</article>
 
-window.onload = function() {
-  openADSdkLoader.init({
-    containerId: "ad-box",
-    zoneId: 535,
-    publisherId: 655,
+<article>
+  <h2>أدوات مفيدة للمطورين والمعلنين</h2>
+  <p>هناك أدوات تساعدك على متابعة أداء موقعك، مثل Google Analytics لمتابعة الزوار، Google Search Console لمراقبة ظهورك في البحث، وAdSense لإدارة إعلاناتك بسهولة وفعالية.</p>
+</article>
 
-    onAdFinish: function() {
-      window.location.href = redirectURL;
-    }
-  });
-};
-</script>
+<article>
+  <h2>نصائح للحفاظ على جودة المحتوى</h2>
+  <p>احرص على كتابة مقالات أصلية وغير منسوخة، أضف صور ومقاطع فيديو حصرية، واستخدم تنسيقًا جذابًا للقارئ. الجودة تعني ثقة الزوار والمحركات البحث، وهذا يزيد فرص قبول موقعك في Google AdSense.</p>
+</article>
 
+  </div>  <footer>
+    <p>© 2025 جميع الحقوق محفوظة</p>
+  </footer>
 </body>
 </html>
